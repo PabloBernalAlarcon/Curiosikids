@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WIN, LOSE}
 public class BattleSystem : MonoBehaviour
 {
+    public BattleHUD playerHUD;
+    public BattleHUD enemyHUD;
 
     public TMP_Text dialogueText;
 
@@ -32,6 +35,11 @@ public class BattleSystem : MonoBehaviour
         GameObject enemi = Instantiate(enemyPrefab,enemyBattleStation);
         enemyUnit = enemi.GetComponent<Unit>();
         dialogueText.text = "A wild "+enemyUnit.unitName+" has appeared!";
+
+        playerHUD.SetHUD(playerUnit);
+        enemyHUD.SetHUD(enemyUnit);
+
+        bState = BattleState.PLAYERTURN;
     }
 
 }

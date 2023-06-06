@@ -25,10 +25,10 @@ public class BattleSystem : MonoBehaviour
     void Start()
     {
         bState = BattleState.START;
-        SetupBattle();
+       StartCoroutine( SetupBattle());
     }
 
-    void SetupBattle()
+    IEnumerator SetupBattle()
     {
        GameObject pleyer = Instantiate(playerPrefab,playerBattleStation);
         playerUnit = pleyer.GetComponent<Unit>();
@@ -40,6 +40,28 @@ public class BattleSystem : MonoBehaviour
         enemyHUD.SetHUD(enemyUnit);
 
         bState = BattleState.PLAYERTURN;
+
+        yield return new WaitForSeconds(5);
+        PlayerTurn();
+    }
+
+    void PlayerTurn()
+    {
+        dialogueText.text = "Choose an action for " + playerUnit.unitName;
+    }
+
+    public void onAttackButton()
+    {
+        if (bState != BattleState.PLAYERTURN)
+            return;
+
+        StartCoroutine(PlayerAttack());
+
+    }
+
+    IEnumerator PlayerAttack()
+    {
+        yield return new WaitForSeconds(5);
     }
 
 }
